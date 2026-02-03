@@ -32,7 +32,7 @@ func TestDefaultCommand(t *testing.T) {
 		return nil
 	})
 	cli.DefaultCommand(defaultCmd)
-	err := cli.Run()
+	err := cli.Run([]string{}...)
 	if err != nil {
 		t.Fatalf("Unexpected error: %v", err)
 	}

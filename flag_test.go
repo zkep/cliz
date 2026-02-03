@@ -1067,7 +1067,7 @@ func TestAddFlagsDefaultValues(t *testing.T) {
 	}
 	cli.AddFlags(&cfg)
 
-	err := cli.Run()
+	err := cli.Run([]string{}...)
 	if err != nil {
 		t.Fatalf("Unexpected error: %v", err)
 	}
@@ -1089,25 +1089,25 @@ func TestAddFlagsDefaultValues(t *testing.T) {
 func TestSetFieldDefaultValueAllTypes(t *testing.T) {
 	cli := NewCli("test-app", "test description", "1.0.0")
 	type config struct {
-		BoolField    bool    `name:"bool-field" description:"bool field" default="true"`
-		StringField  string  `name:"string-field" description:"string field" default="test"`
-		IntField     int     `name:"int-field" description:"int field" default="100"`
-		Int8Field    int8    `name:"int8-field" description:"int8 field" default="10"`
-		Int16Field   int16   `name:"int16-field" description:"int16 field" default="100"`
-		Int32Field   int32   `name:"int32-field" description:"int32 field" default="1000"`
-		Int64Field   int64   `name:"int64-field" description:"int64 field" default="10000"`
-		UintField    uint    `name:"uint-field" description:"uint field" default="50"`
-		Uint8Field   uint8   `name:"uint8-field" description:"uint8 field" default="5"`
-		Uint16Field  uint16  `name:"uint16-field" description:"uint16 field" default="500"`
-		Uint32Field  uint32  `name:"uint32-field" description:"uint32 field" default="5000"`
-		Uint64Field  uint64  `name:"uint64-field" description:"uint64 field" default="50000"`
-		Float32Field float32 `name:"float32-field" description:"float32 field" default="3.14"`
-		Float64Field float64 `name:"float64-field" description:"float64 field" default="2.718"`
+		BoolField    bool    `name:"bool-field" description:"bool field" default:"true"`
+		StringField  string  `name:"string-field" description:"string field" default:"test"`
+		IntField     int     `name:"int-field" description:"int field" default:"100"`
+		Int8Field    int8    `name:"int8-field" description:"int8 field" default:"10"`
+		Int16Field   int16   `name:"int16-field" description:"int16 field" default:"100"`
+		Int32Field   int32   `name:"int32-field" description:"int32 field" default:"1000"`
+		Int64Field   int64   `name:"int64-field" description:"int64 field" default:"10000"`
+		UintField    uint    `name:"uint-field" description:"uint field" default:"50"`
+		Uint8Field   uint8   `name:"uint8-field" description:"uint8 field" default:"5"`
+		Uint16Field  uint16  `name:"uint16-field" description:"uint16 field" default:"500"`
+		Uint32Field  uint32  `name:"uint32-field" description:"uint32 field" default:"5000"`
+		Uint64Field  uint64  `name:"uint64-field" description:"uint64 field" default:"50000"`
+		Float32Field float32 `name:"float32-field" description:"float32 field" default:"3.14"`
+		Float64Field float64 `name:"float64-field" description:"float64 field" default:"2.718"`
 	}
 	var cfg config
 	cli.AddFlags(&cfg)
 
-	err := cli.Run()
+	err := cli.Run([]string{}...)
 	if err != nil {
 		t.Fatalf("Unexpected error: %v", err)
 	}
@@ -1295,13 +1295,13 @@ func TestValidatorErrorWithEmptyTemplate(t *testing.T) {
 func TestSetFieldDefaultValueWithErrors(t *testing.T) {
 	cli := NewCli("test-app", "test description", "1.0.0")
 	type config struct {
-		InvalidBool bool `name:"invalid-bool" description:"invalid bool" default="not-a-bool"`
-		InvalidInt  int  `name:"invalid-int" description:"invalid int" default="not-a-number"`
+		InvalidBool bool `name:"invalid-bool" description:"invalid bool" default:"not-a-bool"`
+		InvalidInt  int  `name:"invalid-int" description:"invalid int" default:"not-a-number"`
 	}
 	var cfg config
 	cli.AddFlags(&cfg)
 
-	err := cli.Run()
+	err := cli.Run([]string{}...)
 	if err != nil {
 		t.Fatalf("Unexpected error: %v", err)
 	}
@@ -1340,8 +1340,8 @@ func TestWithMessageForAllValidators(t *testing.T) {
 func TestAddFlagsWithValidationTags(t *testing.T) {
 	cli := NewCli("test-app", "test description", "1.0.0")
 	type config struct {
-		Email string `name:"email" description:"email address" validate="email"`
-		Age   int    `name:"age" description:"age" validate="min=18,max=100"`
+		Email string `name:"email" description:"email address" validate:"email"`
+		Age   int    `name:"age" description:"age" validate:"min=18,max=100"`
 	}
 	var cfg config
 	cli.AddFlags(&cfg)
@@ -1424,14 +1424,14 @@ func TestParseFlagsWithCustomValidator(t *testing.T) {
 func TestSetFieldDefaultValueComplexScenario(t *testing.T) {
 	cli := NewCli("test-app", "test description", "1.0.0")
 	type config struct {
-		BoolWithDefault   bool   `name:"bool-default" description:"bool with default" default="false"`
-		StringWithDefault string `name:"string-default" description:"string with default" default="default"`
-		IntWithDefault    int    `name:"int-default" description:"int with default" default="0"`
+		BoolWithDefault   bool   `name:"bool-default" description:"bool with default" default:"false"`
+		StringWithDefault string `name:"string-default" description:"string with default" default:"default"`
+		IntWithDefault    int    `name:"int-default" description:"int with default" default:"0"`
 	}
 	var cfg config
 	cli.AddFlags(&cfg)
 
-	err := cli.Run()
+	err := cli.Run([]string{}...)
 	if err != nil {
 		t.Fatalf("Unexpected error: %v", err)
 	}

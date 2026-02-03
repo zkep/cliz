@@ -2,6 +2,7 @@ package cliz
 
 import (
 	"fmt"
+	"os"
 )
 
 // Cli is the main CLI application object.
@@ -30,14 +31,14 @@ func defaultBannerFunction(c *Cli) string {
 // The description appears in help output.
 // The version is optional and appears in the banner if provided.
 func NewCli(name, description, version string) *Cli {
-	result := &Cli{
+	cli := &Cli{
 		version:        version,
 		bannerFunction: defaultBannerFunction,
 	}
-	result.rootCommand = NewCommand(name, description)
-	result.rootCommand.setApp(result)
-	result.rootCommand.setParentCommandPath("")
-	return result
+	cli.rootCommand = NewCommand(name, description)
+	cli.rootCommand.setApp(cli)
+	cli.rootCommand.setParentCommandPath("")
+	return cli
 }
 
 // Version returns the application version string.
@@ -97,6 +98,9 @@ func (c *Cli) Run(args ...string) error {
 		if err != nil {
 			return err
 		}
+	}
+	if args == nil {
+		args = os.Args[1:]
 	}
 	return c.rootCommand.run(args)
 }

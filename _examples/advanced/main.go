@@ -2,14 +2,14 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/zkep/cliz"
 )
 
 func main() {
-	app := cliz.NewCli("advanced_validators", "CLI application demonstrating advanced validators", "1.0.0")
+	app := cliz.NewCli(
+		"advanced_validators", "CLI application demonstrating advanced validators", "1.0.0")
 
 	var phoneNumber string
 	var zipCode string
@@ -82,7 +82,8 @@ func main() {
 	})
 
 	if err := app.Run(os.Args...); err != nil {
-		log.Fatal(err)
+		fmt.Printf("%v\n", err)
+		os.Exit(1)
 	}
 }
 

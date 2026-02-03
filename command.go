@@ -39,7 +39,7 @@ type Action func() error
 // The command name should be unique within its parent command.
 // The description should be a concise summary of what the command does.
 func NewCommand(name string, description string) *Command {
-	result := &Command{
+	command := &Command{
 		name:              name,
 		shortdescription:  description,
 		subCommandsMap:    make(map[string]*Command),
@@ -49,8 +49,7 @@ func NewCommand(name string, description string) *Command {
 		hidden:            false,
 		positionalArgsMap: make(map[string]reflect.Value),
 	}
-
-	return result
+	return command
 }
 
 func (c *Command) setParentCommandPath(parentCommandPath string) {
@@ -90,11 +89,11 @@ func (c *Command) Action(action Action) *Command {
 // The subcommand name should be unique within the current command.
 // The description should be a concise summary of what the subcommand does.
 func (c *Command) NewSubCommand(name string, description string) *Command {
-	result := NewCommand(name, description)
-	result.setApp(c.app)
-	result.setParentCommandPath(c.commandPath)
-	c.addSubCommand(result)
-	return result
+	command := NewCommand(name, description)
+	command.setApp(c.app)
+	command.setParentCommandPath(c.commandPath)
+	c.addSubCommand(command)
+	return command
 }
 
 // addSubCommand adds a subcommand to the current command.
@@ -209,12 +208,12 @@ func (c *Command) AddCommand(cmd *Command) {
 // The subcommand name should be unique within the current command.
 // The description should be a concise summary of what the subcommand does.
 func (c *Command) NewSubCommandInheritFlags(name string, description string) *Command {
-	result := NewCommand(name, description)
-	result.setApp(c.app)
-	result.setParentCommandPath(c.commandPath)
-	result.inheritFlags(c.flags)
-	c.addSubCommand(result)
-	return result
+	command := NewCommand(name, description)
+	command.setApp(c.app)
+	command.setParentCommandPath(c.commandPath)
+	command.inheritFlags(c.flags)
+	c.addSubCommand(command)
+	return command
 }
 
 // SubCommands returns the list of subcommands.
@@ -273,9 +272,9 @@ func (c *Command) run(args []string) error {
 			command = subcommand
 			command_args = args[i+1:]
 		}
-	}
-	if command.flagCount > 1 && (len(command_args) == 0 || (command_args[0] == "--help" || command_args[0] == "-h")) {
-		command.helpFlag = true
+		if arg == "--help" || arg == "-h" {
+			command.helpFlag = true
+		}
 	}
 	// Help takes precedence
 	if command.helpFlag {
@@ -288,7 +287,7 @@ func (c *Command) run(args []string) error {
 		if command.app != nil && command.app.errorHandler != nil {
 			return command.app.errorHandler(command.commandPath, err)
 		}
-		return fmt.Errorf("%w\nSee '%s --help' for usage", err, command.commandPath)
+		return err
 	}
 
 	// If we have a subcommand, run it

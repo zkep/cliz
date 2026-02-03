@@ -1,6 +1,7 @@
 package cliz
 
 import (
+	"errors"
 	"flag"
 	"fmt"
 	"os"
@@ -959,7 +960,7 @@ func (c *Command) parseFlags(args []string) error {
 	}
 
 	if len(validationErrs) > 0 {
-		return fmt.Errorf("%v", validationErrs)
+		return errors.Join(validationErrs...)
 	}
 
 	if len(positionalArgs) > 0 {

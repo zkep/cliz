@@ -180,8 +180,8 @@ func TestPositionalArgsNegativeToUint(t *testing.T) {
 
 func TestPositionalArgsNoPositionTag(t *testing.T) {
 	type Args struct {
-		Arg1 string `:""`
-		Arg2 string
+		Arg1 string `name:"arg1"`
+		Arg2 string `name:"arg2"`
 	}
 
 	args := Args{}
