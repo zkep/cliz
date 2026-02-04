@@ -125,6 +125,11 @@ func (c *Cli) NewSubCommandInheritFlags(name, description string) *Command {
 	return c.rootCommand.NewSubCommandInheritFlags(name, description)
 }
 
+func (c *Cli) NewSubCommandFunction(name string, description string, test any) *Cli {
+	c.rootCommand.NewSubCommandFunction(name, description, test)
+	return c
+}
+
 // PreRun sets a callback function to execute before running any command.
 // This can be used for pre-command initialization or validation.
 func (c *Cli) PreRun(callback func(*Cli) error) {
